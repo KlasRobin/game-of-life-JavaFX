@@ -12,6 +12,7 @@ public class Board extends Parent {
 		cells = new Cell[50][50];
 		pane = new GridPane();
 		
+		
 	}
 
 	public void drawBoard() {
@@ -29,8 +30,8 @@ public class Board extends Parent {
 	}
 	
 	public void updateBoard() {
-		pane.getChildren().remove(0, 99);
-		
+		pane.getChildren().clear();
+	
 		for (int i = 0; i < cells[0].length; i++) {
 
 			for (int j = 0; j < cells.length; j++) {

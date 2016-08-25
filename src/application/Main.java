@@ -29,7 +29,8 @@ public class Main extends Application {
 
 			primaryStage.setScene(scene);
 			primaryStage.show();
-
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -39,23 +40,23 @@ public class Main extends Application {
 	private void initGame(BorderPane root) {
 		board.initBoard();
 		board.drawBoard();
-		Logic l = new Logic();
+		
 		Button b = new Button("GO!");
 		b.setPrefSize(100, 100);
 		root.setBottom(b);
 		b.setOnMouseClicked(e -> {
-			startGame(l);
+			startGame();
 			b.setVisible(false);
 		});
 	}
 
-	private void startGame(Logic l) {
+	private void startGame() {
 		TimerService service = new TimerService();
 		AtomicInteger count = new AtomicInteger(0);
 		service.setCount(count.get());
-		service.setPeriod(Duration.millis(10));
+		service.setPeriod(Duration.millis(500));
 		service.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-
+		Logic l = new Logic();
 			@Override
 			public void handle(WorkerStateEvent t) {
 				System.out.println("Called : " + t.getSource().getValue() + " time(s)");
@@ -65,6 +66,8 @@ public class Main extends Application {
 			}
 		});
 		service.start();
+		
+		
 		for (int i = 0; i < 100; i++) {
 
 			service.restart();

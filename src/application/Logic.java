@@ -1,14 +1,44 @@
 package application;
 
 public class Logic {
+	
+    Cell[][] tempCells;
+    Cell[][] tempCells2;
+    int count;
+    
+    public Logic(){
+    	tempCells = new Cell[50][50];
+    	for (int i = 0; i < 50; i++) {
+			for (int j = 0; j < 50; j++) {
+				tempCells[i][j] = new Cell(false, 0);
+			}
+		}
+    	tempCells2 = new Cell[50][50];
+    	for (int i = 0; i < 50; i++) {
+			for (int j = 0; j < 50; j++) {
+				tempCells2[i][j] = new Cell(false, 0);
+			}
+		}
+    	count = 0;
+    	
+    }
 
 	public void setNeighbours(Board b) {
-		Cell[][] currCells = b.getCells();
-		Cell[][] newCells = new Cell[currCells[0].length][currCells.length];
+		Cell[][] currCells=b.getCells();
+		Cell[][] newCells;
+		count++;
+		if(count%2==0){
+			newCells = tempCells;
+		}else{
+			newCells = tempCells2;
+		}
+		
+
+		killCells(newCells);
 		for (int y = 0; y < currCells[0].length; y++) {
 
 			for (int x = 0; x < currCells.length; x++) {
-				newCells[y][x] = new Cell(false,0);
+				
 				boolean topLeft = (!isOutOfBounds(y-1, x-1, currCells)) && currCells[y - 1][x - 1].isAlive();
 				boolean top = (!isOutOfBounds(y-1, x, currCells)) && currCells[y - 1][x].isAlive();
 				boolean topRight = (!isOutOfBounds(y-1, x+1, currCells)) && currCells[y - 1][x+1].isAlive();
@@ -58,7 +88,15 @@ public class Logic {
 		}
 
 		b.setCells(newCells);
-		
+	}
+
+	private void killCells(Cell[][] cells) {
+		for (int i = 0; i < 50; i++) {
+			for (int j = 0; j < 50; j++) {
+				cells[i][j].setAlive(false);
+				cells[i][j].setNeighbours(0);
+			}
+		}
 	}
 
 	private boolean isOutOfBounds(int x, int y, Cell[][] c) {
@@ -69,5 +107,9 @@ public class Logic {
 		return false;
 
 	}
+	
+	
+		
+	
 
 }
